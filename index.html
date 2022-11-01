@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>Температура за Фаренгейтом:</td>
+            <td><input type="text" id="Far"></td>
+        </tr>
+        <tr>
+            <td>Температура за Цельсієм:</td>
+            <td><input type="text" id="Cels"></td>
+        </tr>
+    </table>
+    <hr>
+    <div id="section" data-current="0">1.jpg</div>
+    <br/>
+    <button id="back">back</button>
+    <button id="next">next</button>
+    <br />
+
+    <h2>Total score: <span id="correct-score"></span> from <span id="total-score">10</span></h2>
+    <button id="next-task">Next task</button>
+  
+    <div class="gameField">
+      <h3><span id="firstNum"></span> x <span id="secondNum"></span> =</h3>
+      <div>
+        <input type="radio" name="answer" value="-1922" id="choice1">
+        <label for="choice1">-1922</label>
+  
+        <input type="radio" name="answer" value="12476" id="choice2">
+        <label for="choice2">12476</label>
+  
+        <input type="radio" name="answer" value="other" id="choice3">
+        <label for="choice3">don't have a correct answer</label>
+  
+      </div>
+      <button id="check-btn">Check</button>
+    </div>
+    <p>Wrong, right answer is <span id="correct-answer"></span></p>
+    <script>
+       var inputCel=document.getElementById("Cels");
+       var inputFar=document.getElementById("Far");
+       inputFar.oninput=function() 
+       {inputCel.value=0.555* (inputFar.value-32);}
+       inputCel.oninput=function() 
+       {inputFar.value=inputCel.value*0.555+32}
+
+
+       var array = ['_102697600_gettyimages-103131833.jpg', '_freepik__com_39_1300x820.jpg', '10_main.jpg', '1621881568_22-oir_mobi-p-shotlandskii-visloukhii-kot-belii-s-serim-24.jpg'],
+        section = document.getElementById('section'),
+        next = document.getElementById('next'),
+        back = document.getElementById('back');
+
+
+        next.addEventListener('click', function() {
+        var current = +section.getAttribute('data-current');
+        current++;
+        if (current >= array.length) {
+            current = 0;
+        }
+        section.setAttribute('data-current', current);
+        section.innerHTML = array[current];
+        });
+
+        back.addEventListener('click', function() {
+        var current = +section.getAttribute('data-current');
+        current--;
+        if (current < 0) {
+            current = array.length - 1;
+        }
+        section.setAttribute('data-current', current);
+        section.innerHTML = array[current];
+        });
+        const Task3 = () => {
+  const score = 10;
+  let correctScore = 0;
+  let currentScore = 1;
+  
+  let firstNumber;
+  let secondNumber;
+  
+  const generateTask = () => {
+    const { random, floor } = Math;
+    firstNumber = floor(random() * 10);
+    secondNumber = floor(random() * 10);
+    
+    document.querySelector('#firstNum').innerHTML = firstNumber;
+    document.querySelector('#secondNum').innerHTML = secondNumber;
+  }
+  
+  generateTask();
+  
+  document.querySelector('#check-btn').addEventListener('click', () => {
+    const correctResult = firstNumber * secondNumber;
+    const userResult = document.getElementById('choice3').checked;
+    console.log(userResult);
+  
+    if (userResult) {
+      correctScore += 1;
+      document.getElementById('correct-score').innerHTML = correctScore;
+      generateTask();
+    } else {
+      document.getElementById('correct-answer').innerHTML = correctResult;
+    }
+  });
+  
+  document.querySelector('#next-task').addEventListener('click', generateTask);
+}
+    
+    </script>
+</body>
+</html>
